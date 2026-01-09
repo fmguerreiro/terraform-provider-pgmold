@@ -95,7 +95,13 @@ jobs:
         with:
           path: artifacts
 
-      - name: Prepare release assets
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: Prepare and sign release assets
         run: |
           mkdir -p release
           VERSION=${GITHUB_REF#refs/tags/v}
@@ -116,6 +122,7 @@ jobs:
           done
           cd release
           shasum -a 256 *.zip > terraform-provider-pgmold_${VERSION}_SHA256SUMS
+          gpg --detach-sign terraform-provider-pgmold_${VERSION}_SHA256SUMS
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
