@@ -70,11 +70,12 @@ jobs:
       - name: Package
         shell: bash
         run: |
+          cp terraform-registry-manifest.json target/${{ matrix.target }}/release/
           cd target/${{ matrix.target }}/release
           if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-            7z a ../../../${{ matrix.asset_name }}.zip ${{ matrix.artifact_name }}
+            7z a ../../../${{ matrix.asset_name }}.zip ${{ matrix.artifact_name }} terraform-registry-manifest.json
           else
-            zip ../../../${{ matrix.asset_name }}.zip ${{ matrix.artifact_name }}
+            zip ../../../${{ matrix.asset_name }}.zip ${{ matrix.artifact_name }} terraform-registry-manifest.json
           fi
 
       - name: Upload artifact
