@@ -15,7 +15,7 @@ terraform {
   required_providers {
     pgmold = {
       source  = "fmguerreiro/pgmold"
-      version = "~> 0.1"
+      version = "~> 0.3"
     }
   }
 }
